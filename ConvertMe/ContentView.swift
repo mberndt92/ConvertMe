@@ -47,14 +47,20 @@ struct ContentView: View {
         from: TemperatureUnit,
         to: TemperatureUnit
     ) -> Double {
-        switch (from, to) {
-        case (.Celsius, .Kelvin): return temperature + 273.15
-        case (.Kelvin, .Celsius): return temperature - 273.15
-        case (.Celsius, .Fahrenheit): return (temperature * 9 / 5) + 32
-        case (.Fahrenheit, .Celsius): return (temperature - 32) * 5 / 9
-        case (.Kelvin, .Fahrenheit): return ((temperature - 273.15) * 9 / 5) + 32
-        case (.Fahrenheit, .Kelvin): return ((temperature - 32) * 5 / 9) + 273.15
-        default: return temperature
+        var temperature: Measurement<UnitTemperature>
+        switch (from) {
+        case .Celsius:
+            temperature = Measurement(value: value, unit: UnitTemperature.celsius)
+        case .Fahrenheit:
+            temperature = Measurement(value: value, unit: UnitTemperature.fahrenheit)
+        case .Kelvin:
+            temperature = Measurement(value: value, unit: UnitTemperature.kelvin)
+        }
+        
+        switch (to) {
+        case .Celsius: return temperature.converted(to: .celsius).value
+        case .Fahrenheit: return temperature.converted(to: .fahrenheit).value
+        case .Kelvin: return temperature.converted(to: .kelvin).value
         }
     }
     
