@@ -95,7 +95,6 @@ struct ContentView: View {
                 Text("Converted Temperature")
             }
         }
-        .padding()
     }
 }
 
